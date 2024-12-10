@@ -1,9 +1,9 @@
-from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorGridFSBucket
+# from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorGridFSBucket
 from core.config import DATABASE_URL, DB_NAME
+from pymongo import AsyncMongoClient
+import gridfs
 
 
-
-
-client = AsyncIOMotorClient(DATABASE_URL)
+client = AsyncMongoClient(DATABASE_URL)
 db = client[DB_NAME]
-fs = AsyncIOMotorGridFSBucket(db)
+fs = gridfs.AsyncGridFSBucket(db)

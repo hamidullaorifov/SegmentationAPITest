@@ -28,6 +28,6 @@ async def hello_world():
 app.include_router(segmentation.router)
 app.include_router(evaluation.router)
 
-
-# public_url = ngrok.connect(8000)
-# print("Public URL:", public_url)
+ngrok.set_auth_token(token='2cWwv5uMeHXGNtquH0vNa0REn2K_7BeDTmcs2BFXG1UW8Fsdk')
+public_url = ngrok.connect(8000)
+print("Public URL:", public_url)

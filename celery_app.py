@@ -1,12 +1,4 @@
 from celery import Celery
-import os
-import zipfile
-import shutil
-
-
-from utils.image_utils import convert_dicom_to_nifti
-from utils.file_utils import validate_zipfile_type, save_upload, extract_zip, cleanup, get_nifti_filename
-from core.config import TEMP_ZIP_INPUT_DIR, TEMP_EXTRACTED_DICOM, TEMP_INPUT_NIFTI
 
 celery = Celery(
     __name__,

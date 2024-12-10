@@ -3,6 +3,7 @@ import os
 import random
 import nibabel as nib
 import numpy as np
+import glob
 
 from skimage import measure
 
@@ -19,6 +20,11 @@ def convert_dicom_to_nifti(dicom_directory, output_folder):
 
     print("Successfully converted dicom files to nifti!")
     
+    nifti_files = glob.glob(f'{output_folder}/*.nii.gz')
+    if nifti_files:
+        return nifti_files[0]
+    return None
+
 
 
 

@@ -1,13 +1,17 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL', 'mongodb://localhost:27017')
 DB_NAME = os.getenv('DB_NAME', 'MED_DB')
 
+print("DATABASE_URL",DATABASE_URL)
+
 # Root project directory
 BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_FILES = '/static'
+STATIC_FILES = '/workspaces/static'
 RTSTRUCT_DIR = os.path.join(STATIC_FILES, 'rtstruct')
 # Define temporary directories
 TEMP_FILES = BASE_DIR / 'temp'
