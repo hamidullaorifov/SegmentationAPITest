@@ -20,7 +20,7 @@ def predict(nifti_output_path, prediction_result_folder):
         '-m', '3d_fullres',
         '-t', 'Task01_BraTS_onlyT1ce',                   
         '-f', '0',                             
-        '--num_threads_preprocessing', '1',
+        '--num_threads_preprocessing', '2',
         '--num_threads_nifti_save', '1',
     ])
 

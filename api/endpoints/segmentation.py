@@ -34,9 +34,7 @@ async def upload_file(file: UploadFile = File(...)):
 async def get_task_status(request: Request, task_id: str):
     task_result = process_file.AsyncResult(task_id)
     if task_result.state == "SUCCESS":
-        file_path = task_result.result['file_path'][1:]  # Removing leading slash
-        full_file_path = f"{request.base_url}{file_path}" # file_path starts with /
-        return {"status": "Completed", "file_path": full_file_path}
+        return {"status": "Completed", "result": task_result.result}
     else:
         return {"status": task_result.state}
 

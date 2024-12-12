@@ -54,21 +54,28 @@ def process_file(zipfile_path, patient_id):
     os.rename(nifti_path, new_file_path)
 
     prediction_result_folder = os.path.join(PREDICTIONS_FOLDER, patient_id)
-    # Execute prdeiction
+
+    os.makedirs(prediction_result_folder, exist_ok=True)
+    # Execute prediction
     predict(nifti_output_path, prediction_result_folder)
 
-    # Get predicted image filename
     predicted_filename =  get_nifti_filename(prediction_result_folder)
-
+    predicted_nifti_path = os.path.join(prediction_result_folder, predicted_filename)
+    predicted_nifti_file_id = async_to_sync(save_file_to_db)(predicted_nifti_path, f'predict_{patient_id}.nii.gz')
     # Convert to RTStruct
     output_dicom_folder = os.path.join(RTSTRUCT_DIR, patient_id)
     os.makedirs(output_dicom_folder, exist_ok=True)
 
-    input_nifti_path = os.path.join(prediction_result_folder, predicted_filename)
-    rtstruct_file_path = convert_nifti_to_rtStruct(input_nifti_path, extracted_path, output_dicom_folder)
-    
+    rtstruct_file_path = convert_nifti_to_rtStruct(predicted_nifti_path, extracted_path, output_dicom_folder)
+    rtstruct_file_id = async_to_sync(save_file_to_db)(rtstruct_file_path, f"{patient_id}_rtstruct.dcm")
     # Cleanup
     cleanup([extracted_path, prediction_result_folder])
     # shutil.rmtree(extracted_path)
     
-    return {"file_path": rtstruct_file_path}
+    return {
+        "file_path": rtstruct_file_path,
+        "nifti_file_id": str(input_nift_file_id),
+        "predicted_nifti_file_id": str(predicted_nifti_file_id),
+        "rtstruct_file_id": str(rtstruct_file_id)
+
+    }
